@@ -7,8 +7,7 @@ import equal from 'fast-deep-equal';
 import { useQueryLoadingSelector } from '@/hooks/use-query-loading';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { GitIcon, BoxIcon } from '@/components/icons';
-import { PencilEditIcon, SparklesIcon } from './icons';
+import { GitIcon, BoxIcon, PencilEditIcon, SparklesIcon } from '@/components/icons';
 
 interface MessagesProps {
   chatId: string;
@@ -36,9 +35,8 @@ export const Messages = memo(
     isReadonly,
     isBlockVisible,
   }: MessagesProps) => {
-    const scrollRef = useRef<HTMLDivElement>(null);
-    useScrollToBottom(scrollRef, messages);
-    const loadingMessages = useQueryLoadingSelector((state) => state.messages);
+    const [scrollRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
+    const loadingMessages = useQueryLoadingSelector((state) => state.taskNames);
 
     return (
       <div
@@ -81,7 +79,7 @@ export const Messages = memo(
                     className="absolute inset-0 bg-gradient-to-r from-thron/20 to-thron/30 
                       blur-2xl rounded-full -z-10"
                   />
-                  <div className="w-12 h-12 mx-auto text-thron drop-shadow-[0_0_15px_rgba(44,170,222,0.3)]">
+                  <div className="size-12 mx-auto text-thron drop-shadow-[0_0_15px_rgba(44,170,222,0.3)]">
                     <BoxIcon size={48} />
                   </div>
                 </motion.div>
@@ -123,7 +121,9 @@ export const Messages = memo(
                         shadow-[0_0_0_1px_rgba(44,170,222,0.1)] hover:shadow-[0_0_0_1px_rgba(44,170,222,0.2)]
                         hover:scale-[1.02]"
                     >
-                      <GitIcon className="w-4 h-4 mr-1" />
+                      <span className="size-4 mr-1 inline-block align-middle">
+                        <GitIcon />
+                      </span>
                       View source code
                     </a>
                   </motion.div>
@@ -150,6 +150,7 @@ export const Messages = memo(
         {isLoading && loadingMessages && loadingMessages.length > 0 && (
           <LoadingMessage loadingMessages={loadingMessages} />
         )}
+        <div ref={messagesEndRef} className="h-0" />
       </div>
     );
   },

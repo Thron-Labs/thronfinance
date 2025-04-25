@@ -21,6 +21,9 @@ import {
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Blue, Green } from './styles/colors';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { ArrowUpRight } from 'lucide-react';
 
 interface StockScreenerResult {
   ticker: string;
@@ -171,6 +174,17 @@ export function StockScreenerTable({
                             : formatValue(result[metric], metric, result.currency)}
                         </TableCell>
                       ))}
+                      <TableCell className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+                        <Button variant="ghost" size="icon" asChild>
+                          <a
+                            href={`https://finance.yahoo.com/quote/${result.ticker}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <ArrowUpRight className="size-4" />
+                          </a>
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

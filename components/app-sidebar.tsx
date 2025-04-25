@@ -32,14 +32,14 @@ export function AppSidebar({ user }: { user: User | undefined }) {
             <Link
               href="/"
               onClick={() => {
-                // Go to financialdatasets.ai
-                window.location.href = 'https://financialdatasets.ai';
+                // Go to https://thronai.org
+                window.location.href = 'https://thronai.org/';
                 setOpenMobile(false);
               }}
               className="flex flex-row gap-3 items-center"
             >
             <span className="bg-clip-text text-xl font-bold px-2 text-primary">
-              financial datasets
+              Thron Finance AI
             </span>
             </Link>
             <Tooltip>

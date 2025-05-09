@@ -8,7 +8,7 @@ import useSWR, { useSWRConfig } from 'swr';
 import { ChatHeader } from '@/components/chat-header';
 import type { Vote } from '@/lib/db/schema';
 import { fetcher, track } from '@/lib/utils';
-import { getFinancialDatasetsApiKey, getLocalOpenAIApiKey } from '@/lib/db/api-keys';
+import { getFinancialDatasetsApiKey, getOpenAIApiKey } from '@/lib/db/api-keys';
 
 import { Block } from './block';
 import { MultimodalInput } from './multimodal-input';
@@ -32,7 +32,7 @@ export function Chat({
 }) {
   const { mutate } = useSWRConfig();
   const financialDatasetsApiKey = getFinancialDatasetsApiKey();
-  const openAIApiKey = getLocalOpenAIApiKey();
+  const openAIApiKey = getOpenAIApiKey();
   const [showApiKeysModal, setShowApiKeysModal] = useState(false);
 
   const {
@@ -81,7 +81,7 @@ export function Chat({
 
       // Check if user has reached their free message limit
       const maxFreeMessageCount = 0;
-      const localApiKey = getLocalOpenAIApiKey();
+      const localApiKey = getOpenAIApiKey();
       if (data.count >= maxFreeMessageCount && !localApiKey) {
         setShowApiKeysModal(true);
         return;

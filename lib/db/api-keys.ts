@@ -3,12 +3,12 @@ import { getLocalStorage, setLocalStorage } from "../utils";
 export const getOpenAIApiKey = () => {
   // Only check env variable on server side
   if (typeof window === 'undefined') {
-    return process.env.OPENAI_API_KEY;
+    return process.env.NEXT_PUBLIC_OPENAI_API_KEY;
   }
   
   // Check localStorage on client side
   const apiKey = getLocalStorage('openaiApiKey');
-  return apiKey || process.env.OPENAI_API_KEY;
+  return apiKey || process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 };
 
 export const setOpenAIApiKey = async (apiKey: string) => {
@@ -17,12 +17,13 @@ export const setOpenAIApiKey = async (apiKey: string) => {
 };
 
 export const getFinancialDatasetsApiKey = () => {
-  const envApiKey = process.env.FINANCIAL_DATASETS_API_KEY;
-  if (envApiKey) return envApiKey;
-
-  // Check localStorage on client side
-  const apiKey = getLocalStorage('financialDatasetsApiKey');
-  return apiKey || process.env.FINANCIAL_DATASETS_API_KEY;
+  // Prefer localStorage first on client, then env variable
+  if (typeof window !== 'undefined') {
+    const apiKey = getLocalStorage('financialDatasetsApiKey');
+    if (apiKey) return apiKey;
+  }
+  // Fallback to env variable (works on server, and on client if localStorage is empty)
+  return process.env.NEXT_PUBLIC_FINANCIAL_DATASETS_API_KEY;
 };
 
 export const setFinancialDatasetsApiKey = async (apiKey: string) => {

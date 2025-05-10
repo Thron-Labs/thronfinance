@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from './ui/button';
 import { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import { memo, useState } from 'react';
-import { getLocalOpenAIApiKey } from '@/lib/db/api-keys';
+import { getOpenAIApiKey } from '@/lib/db/api-keys';
 import { ApiKeysModal } from './api-keys-modal';
 
 interface SuggestedActionsProps {
@@ -67,8 +67,8 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
               onClick={() => {
                 try {
                   //  Check for API key
-                  const localApiKey = getLocalOpenAIApiKey();
-                  if (!localApiKey) {
+                  const apiKey = getOpenAIApiKey();
+                  if (!apiKey) {
                     setShowApiKeysModal(true);
                     return;
                   }
